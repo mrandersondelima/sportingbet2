@@ -14,7 +14,6 @@ import os
 from utils import *
 
 hora_jogo_atual = None
-meta_atingida = False
 
 # armazena a porcentagem de acordo com o número de jogos amarelos
 n_amarelos_e_porcentagem = [0, 0, 0, 0, 0, 0, 0, 1.0, 1.8, 3.3, 6, 11, 21]
@@ -46,6 +45,7 @@ class ChromeAuto():
         self.perdidas_em_sequencia = 0
         self.maior_perdidas_em_sequencia = 0
         self.ao_atingir_meta = ao_atingir_meta
+        self.meta_atingida = False
         return
 
     def acessa(self, site):
@@ -558,9 +558,9 @@ class ChromeAuto():
                     print('PARABÉNS! VOCÊ ATINGIU SUA META!')
                     self.telegram_bot.envia_mensagem(f'PARABÉNS! VOCÊ ATINGIU SUA META! SEU SALDO É: R$ {self.saldo}\nMAIOR SEQUÊNCIA DE PERDAS: {self.maior_perdidas_em_sequencia}')
                     print(f'MAIOR SEQUÊNCIA DE PERDAS: {self.maior_perdidas_em_sequencia}')
+                    self.meta_atingida = True
+                    print('META ATINGIDA?', self.meta_atingida)
                     self.chrome.quit()
-                    meta_atingida = True
-
             except Exception as e:
                 print(e)
                 print('Algo saiu errado no espera_resultado')        
@@ -587,7 +587,7 @@ class AnalisadorResultados():
         hora_jogo_atual = primeiro_horario.get_property('innerText')
         chrome.hora_jogo = hora_jogo_atual
 
-        while not meta_atingida:
+        while not chrome.meta_atingida:
             if chrome.jogos_realizados.get(hora_jogo_atual) == None:
                 chrome.clica_horario_jogo(f"//*[normalize-space(text()) = '{hora_jogo_atual}']")
                 if not chrome.aposta_fechada:
