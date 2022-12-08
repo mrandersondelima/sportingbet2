@@ -14,6 +14,9 @@ pausa_menor = False
 
 ultima_lista = ''
 
+# a cada 20 jogos o sistema vai emitir um alerta avisando que ainda está rodando
+contador_jogos = 0
+
 def verifica_lista( lista_resultados, ultima_lista ):
     if ultima_lista == '':
         return False
@@ -37,6 +40,11 @@ while True:
                 pass
             else:
                 print('Nova lista: ', lista_resultados)
+
+                contador_jogos += 1
+
+                if contador_jogos % 20 == 0:
+                    telegram_bot.envia_mensagem(f'Sistema ainda rodando...')
 
                 #verifica se a lista é imediatamente subsequente ou se há quebra...
                 lista_quebrada = verifica_lista( lista_resultados, ultima_lista )
