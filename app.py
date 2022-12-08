@@ -14,6 +14,7 @@ import os
 from utils import *
 
 hora_jogo_atual = None
+meta_atingida = False
 
 # armazena a porcentagem de acordo com o número de jogos amarelos
 n_amarelos_e_porcentagem = [0, 0, 0, 0, 0, 0, 0, 1.0, 1.8, 3.3, 6, 11, 21]
@@ -558,7 +559,7 @@ class ChromeAuto():
                     self.telegram_bot.envia_mensagem(f'PARABÉNS! VOCÊ ATINGIU SUA META! SEU SALDO É: R$ {self.saldo}\nMAIOR SEQUÊNCIA DE PERDAS: {self.maior_perdidas_em_sequencia}')
                     print(f'MAIOR SEQUÊNCIA DE PERDAS: {self.maior_perdidas_em_sequencia}')
                     self.chrome.quit()
-                    return
+                    meta_atingida = True
 
             except Exception as e:
                 print(e)
@@ -586,7 +587,7 @@ class AnalisadorResultados():
         hora_jogo_atual = primeiro_horario.get_property('innerText')
         chrome.hora_jogo = hora_jogo_atual
 
-        while True:
+        while not meta_atingida:
             if chrome.jogos_realizados.get(hora_jogo_atual) == None:
                 chrome.clica_horario_jogo(f"//*[normalize-space(text()) = '{hora_jogo_atual}']")
                 if not chrome.aposta_fechada:
