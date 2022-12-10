@@ -4,7 +4,7 @@ from telegram_bot import TelegramBot
 from credenciais import usuario, senha, path_to_results
 from app import AnalisadorResultados
 
-NUMERO_JOGOS_AMARELOS = 0
+NUMERO_JOGOS_AMARELOS = 8
 numero_jogos_amarelos_atual = 0
 ultimo_jogo = dict()
 telegram_bot = TelegramBot()
@@ -76,6 +76,9 @@ while True:
                             atingiu_jogos_amarelos = False
 
                 print(numero_jogos_amarelos_atual)
+
+                if numero_jogos_amarelos_atual == 7:
+                    telegram_bot.envia_mensagem('7 JOGOS...')
 
                 if numero_jogos_amarelos_atual >= NUMERO_JOGOS_AMARELOS:
                     telegram_bot.envia_mensagem(f'HORA DE APOSTAR!!! {numero_jogos_amarelos_atual} JOGOS.')
