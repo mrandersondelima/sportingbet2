@@ -46,7 +46,9 @@ class ChromeAuto():
         self.maior_perdidas_em_sequencia = 0
         self.ao_atingir_meta = ao_atingir_meta
         self.meta_atingida = False
-        return
+        self.acessa('https://sports.sportingbet.com/pt-br/sports/virtual/futebol-virtual-101/international-100204?q=1')
+        self.clica_sign_in_faz_login()
+        input()
 
     def acessa(self, site):
         self.chrome.get(site)
@@ -585,7 +587,8 @@ class AnalisadorResultados():
 
         chrome = ChromeAuto(meta=self.meta, tipo_valor=self.tipo_valor, valor_aposta=self.valor_aposta, tipo_meta=self.tipo_meta, estilo_jogo=self.estilo_jogo, ao_atingir_meta=self.ao_atingir_meta)
         chrome.acessa('https://sports.sportingbet.com/pt-br/sports/virtual/futebol-virtual-101/international-100204?q=1')
-        chrome.clica_sign_in_faz_login()
+        chrome.clica_sign_in()
+        chrome.faz_login()
 
         horario_jogo = '/html/body/vn-app/vn-dynamic-layout-single-slot[4]/vn-main/main/div/ms-main/ng-scrollbar[1]/div/div/div/div/ms-main-column/div/ms-virtual-list/ms-virtual-fixture/div/ms-tab-bar/ms-scroll-adapter/div/div/ul/li[2]/a'
 
@@ -611,4 +614,7 @@ class AnalisadorResultados():
                 hora_jogo_atual = '21:05'
                 chrome.hora_jogo = '21:05'
 
-        chrome.chrome.quit()
+        chrome.sair()
+
+if __name__ == '__main__':
+    chrome = ChromeAuto()
