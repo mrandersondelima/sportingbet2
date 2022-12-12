@@ -77,8 +77,8 @@ while True:
 
                 print(numero_jogos_amarelos_atual)
 
-                if numero_jogos_amarelos_atual == 7:
-                    telegram_bot.envia_mensagem('7 JOGOS...')
+                if numero_jogos_amarelos_atual in [6,7]:
+                    telegram_bot.envia_mensagem(f'{numero_jogos_amarelos_atual} JOGOS...')
 
                 if numero_jogos_amarelos_atual >= NUMERO_JOGOS_AMARELOS:
                     telegram_bot.envia_mensagem(f'HORA DE APOSTAR!!! {numero_jogos_amarelos_atual} JOGOS.')
