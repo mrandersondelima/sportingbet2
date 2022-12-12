@@ -65,6 +65,7 @@ class ChromeAuto():
             print(e)
 
     def faz_login(self):
+        sleep(2)
         try:
             input_login = WebDriverWait(self.chrome, 10).until(
                 EC.element_to_be_clickable((By.ID, 'userId' )  )) 
