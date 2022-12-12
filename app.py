@@ -563,7 +563,9 @@ class ChromeAuto():
                     self.chrome.quit()
             except Exception as e:
                 print(e)
-                print('Algo saiu errado no espera_resultado')        
+                print('Algo saiu errado no espera_resultado')   
+
+         
         
 class AnalisadorResultados():
     def __init__(self, n_amarelos=None):
