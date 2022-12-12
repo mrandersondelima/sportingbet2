@@ -4,7 +4,7 @@ from telegram_bot import TelegramBot
 from credenciais import usuario, senha, path_to_results
 from app import AnalisadorResultados
 
-NUMERO_JOGOS_AMARELOS = 8
+NUMERO_JOGOS_AMARELOS = 0
 numero_jogos_amarelos_atual = 0
 ultimo_jogo = dict()
 telegram_bot = TelegramBot()
@@ -16,6 +16,9 @@ ultima_lista = ''
 
 # a cada 20 jogos o sistema vai emitir um alerta avisando que ainda está rodando
 contador_jogos = 0
+
+analisador = AnalisadorResultados(n_amarelos=numero_jogos_amarelos_atual)
+analisador.aposta()
 
 def verifica_lista( lista_resultados, ultima_lista ):
     if ultima_lista == '':

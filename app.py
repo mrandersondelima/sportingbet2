@@ -135,10 +135,6 @@ class ChromeAuto():
             horario.click()
             sleep(2)
 
-            # aqui vai ver se tem o mercado de resultado do jogo            
-            resultado_partida =  WebDriverWait(self.chrome, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//*[normalize-space(text()) = 'Resultado da partida']")))
-
         except Exception as e:
             ''' aqui a gente verifica se o item atual tem sibling, 
             se tiver é porque o horário não existe, então passamos pro próximo horário '''   
@@ -394,8 +390,10 @@ class ChromeAuto():
                     self.insere_valor( f'{self.valor_aposta:.2f}')
                 elif self.estilo_rodada == EstiloJogo.JOGO_UNICO_ODD_ACIMA_2_MEIO:
                     odd_mais_2_meio = WebDriverWait(self.chrome, 20).until(
-                        EC.presence_of_element_located((By.XPATH, '/html/body/vn-app/vn-dynamic-layout-single-slot[4]/vn-main/main/div/ms-main/ng-scrollbar[1]/div/div/div/div/ms-main-column/div/ms-virtual-list/ms-virtual-fixture/div/ms-option-group-list/div[2]/ms-option-panel[1]/ms-over-under-option-group/div/ms-option[5]/ms-event-pick/div/div[2]') ))  
+                        EC.presence_of_element_located((By.XPATH, "//*[normalize-space(text()) = 'Acima de 2.5']/following-sibling::div") ))  
                     odd_mais_2_meio = float(odd_mais_2_meio.get_property('innerText'))
+
+                    print(odd_mais_2_meio)
 
                     # vamos pegar quanto é meio por cento do valor do saldo
                     # se tiver perda acumulada, vai apostar o valor pra recuperar a perda
@@ -423,16 +421,18 @@ class ChromeAuto():
                     print(f'GANHO POTENCIAL REAL: {(self.valor_aposta * odd_mais_2_meio - self.valor_aposta):.2f} R$')
 
                     odd_acima_2_meio = WebDriverWait(self.chrome, 20).until(
-                        EC.element_to_be_clickable((By.XPATH, '/html/body/vn-app/vn-dynamic-layout-single-slot[4]/vn-main/main/div/ms-main/ng-scrollbar[1]/div/div/div/div/ms-main-column/div/ms-virtual-list/ms-virtual-fixture/div/ms-option-group-list/div[2]/ms-option-panel[1]/ms-over-under-option-group/div/ms-option[5]' ) )) 
-                    odd_acima_2_meio.click()
+                        EC.presence_of_element_located((By.XPATH, "//*[normalize-space(text()) = 'Acima de 2.5']/ancestor::div/ancestor::ms-event-pick" ) )) 
+                    odd_acima_2_meio.click()                    
 
                     self.insere_valor( f'{self.valor_aposta:.2f}')
 
         except Exception as e:
+            #se cair aqui é porque não existe o mercado de acima de 2.5 então o sistema deve abortar as apostas            
             print("APOSTA JÁ FECHADA...")
             print('Algo saiu errado no analisa_odds')
             print(e)
             self.aposta_fechada = True
+            self.meta_atingida = True
 
     def le_saldo(self):
         try:
@@ -560,7 +560,6 @@ class ChromeAuto():
                     print(f'MAIOR SEQUÊNCIA DE PERDAS: {self.maior_perdidas_em_sequencia}')
                     self.meta_atingida = True
                     print('META ATINGIDA?', self.meta_atingida)
-                    self.chrome.quit()
             except Exception as e:
                 print(e)
                 print('Algo saiu errado no espera_resultado')   
@@ -606,3 +605,5 @@ class AnalisadorResultados():
             if hora_jogo_atual == '20:56':
                 hora_jogo_atual = '21:05'
                 chrome.hora_jogo = '21:05'
+
+        chrome.chrome.quit()
