@@ -1,7 +1,7 @@
 import os
 from time import sleep
 from telegram_bot import TelegramBot
-from credenciais import usuario, senha, path_to_results
+from credenciais import path_to_results
 from app import AnalisadorResultados
 
 NUMERO_JOGOS_AMARELOS = 8
@@ -27,7 +27,7 @@ def verifica_lista( lista_resultados, ultima_lista ):
             return True
 
 while True:
-    saida = os.popen(f'wsl {path_to_results}').read()
+    saida = os.popen(f'{path_to_results}').read()
     if saida.split('\n')[0] == '' or 'PLAYNOW!' not in saida:
         pass
     else:
