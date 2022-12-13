@@ -43,7 +43,7 @@ while True:
 
                 contador_jogos += 1
 
-                if contador_jogos % 20 == 0:
+                if contador_jogos % 10 == 0:
                     telegram_bot.envia_mensagem(f'Sistema ainda rodando...')
 
                 #verifica se a lista é imediatamente subsequente ou se há quebra...
