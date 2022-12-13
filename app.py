@@ -16,13 +16,14 @@ from utils import *
 hora_jogo_atual = None
 
 # armazena a porcentagem de acordo com o número de jogos amarelos
-n_amarelos_e_porcentagem = [0, 0, 0, 0, 0, 0, 0.59, 1.0, 1.8, 3.3, 6, 11, 21]
+n_amarelos_e_porcentagem = [0, 0, 0, 0, 0, 0, 0.59, 1.0, 1.87, 3.3, 6, 11, 21]
 
 class ChromeAuto():
     def __init__(self, meta=0, tipo_valor=1, valor_aposta=None, tipo_meta=None, estilo_jogo=None, ao_atingir_meta=None):
         self.driver_path = 'chromedriver'
         self.options = webdriver.ChromeOptions()
         self.chrome = webdriver.Chrome(self.driver_path)
+        self.LIMITE_BANCA = 5348.00
         self.valor_aposta = valor_aposta
         self.valor_aposta_inicial = valor_aposta
         self.meta = float(meta)
@@ -91,7 +92,7 @@ class ChromeAuto():
             print(f'SALDO ATUAL: {self.saldo}')
 
             # saldo inicial não pode ser alterado ao longo de toda uma rodada
-            self.saldo_inicial = self.saldo
+            self.saldo_inicial = self.LIMITE_BANCA if self.saldo > self.LIMITE_BANCA else self.saldo
 
             self.atualiza_meta_e_valor_aposta()
 
@@ -444,11 +445,13 @@ class ChromeAuto():
         try:
             saldo_request = self.chrome.execute_script(f'let d = await fetch("https://sports.sportingbet.com/pt-br/api/balance/refresh"); return await d.json();')
             self.saldo = saldo_request['vnBalance']['accountBalance']
+            self.saldo = self.LIMITE_BANCA if self.saldo > self.LIMITE_BANCA else self.saldo
         except Exception as e:
             print(e)
             print('Não foi possível ler saldo. Saindo do programa.')
-            self.chrome.quit()
-            exit()
+            self.telegram_bot.envia_mensagem(f'ERRO AO LER SALDO!!!')
+            self.aposta_fechada = True
+            self.meta_atingida = True
 
     def define_hora_jogo(self, hora_jogo_atual):
         hora = int(hora_jogo_atual.split(':')[0])
