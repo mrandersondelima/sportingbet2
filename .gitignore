@@ -2,3 +2,5 @@ chromedriver.exe
 __pycache__
 .env
 Perfil
+chromedriver
+teste_selenium.py
