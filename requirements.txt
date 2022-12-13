@@ -1,0 +1,4 @@
+pause==0.3
+python-dotenv==0.21.0
+requests==2.27.1
+selenium==3.141.0
