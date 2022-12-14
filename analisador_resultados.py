@@ -4,7 +4,7 @@ from telegram_bot import TelegramBot
 from credenciais import path_to_results
 from app import AnalisadorResultados
 
-NUMERO_JOGOS_AMARELOS = 7
+NUMERO_JOGOS_AMARELOS = 6
 numero_jogos_amarelos_atual = 0
 ultimo_jogo = dict()
 telegram_bot = TelegramBot()
