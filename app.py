@@ -16,7 +16,7 @@ from utils import *
 hora_jogo_atual = None
 
 # armazena a porcentagem de acordo com o número de jogos amarelos
-n_amarelos_e_porcentagem = [0, 0, 0, 0, 0, 0, 0.59, 1.0, 1.87, 3.3, 6, 11, 21]
+n_amarelos_e_porcentagem = [0, 0, 0, 0, 0, 0, 0.59, 1.05, 1.87, 3.36, 6, 11, 21]
 
 class ChromeAuto():
     def __init__(self, meta=0, tipo_valor=1, valor_aposta=None, tipo_meta=None, estilo_jogo=None, ao_atingir_meta=None):
