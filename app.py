@@ -418,7 +418,9 @@ class ChromeAuto():
                         self.chrome.quit()
                         print('SALDO INSUFICIENTE PARA REALIZAR APOSTAS!!!')
                         self.telegram_bot.envia_mensagem(f'SALDO INSUFICIENTE PARA REALIZAR APOSTAS!!!')
-                        exit()
+                        self.aposta_fechada = True
+                        self.meta_atingida = True
+                        return
 
                     self.saldo_antes_aposta = self.saldo
 
