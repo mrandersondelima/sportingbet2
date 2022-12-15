@@ -10,6 +10,7 @@ numero_jogos_amarelos_atual = 0
 ultimo_jogo = dict()
 telegram_bot = TelegramBot()
 atingiu_jogos_amarelos = False
+atingiu_jogos_amarelos_anterior = 0
 primeira_execucao = True
 pausa_menor = False
 
@@ -43,6 +44,8 @@ while True:
                 else:
                     print('Nova lista: ', lista_resultados)
                     print( datetime.now().strftime('%d/%m/%Y %H:%M') )
+
+                    numero_jogos_amarelos_anterior = numero_jogos_amarelos_atual
 
                     contador_jogos += 1
 
@@ -79,6 +82,11 @@ while True:
                                 atingiu_jogos_amarelos = False
 
                     print(numero_jogos_amarelos_atual)
+
+                    if numero_jogos_amarelos_anterior == 3 and numero_jogos_amarelos_atual == 0:
+                        telegram_bot.envia_mensagem(f'VERDE DEPOIS DE TRÊS AMARELOS.')
+                    elif numero_jogos_amarelos_anterior == 3 and numero_jogos_amarelos_atual > 0:
+                        telegram_bot.envia_mensagem(f'AMARELO DEPOIS DE TRÊS AMARELOS.')
 
                     if numero_jogos_amarelos_atual >= NUMERO_JOGOS_AMARELOS:
                         telegram_bot.envia_mensagem(f'HORA DE APOSTAR!!! {numero_jogos_amarelos_atual} JOGOS.')
