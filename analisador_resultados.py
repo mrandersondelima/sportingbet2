@@ -3,6 +3,7 @@ from time import sleep
 from telegram_bot import TelegramBot
 from credenciais import path_to_results
 from app import AnalisadorResultados
+from datetime import datetime
 
 NUMERO_JOGOS_AMARELOS = 6
 numero_jogos_amarelos_atual = 0
@@ -41,6 +42,7 @@ while True:
                     pass
                 else:
                     print('Nova lista: ', lista_resultados)
+                    print( datetime.now().strftime('%d/%m/%Y %H:%M') )
 
                     contador_jogos += 1
 
