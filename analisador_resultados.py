@@ -121,8 +121,8 @@ def ler_resultados():
                                     array_resultados.append(f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
                                     if not ultimo_foi_verde:
                                         n_jogos_amarelos += 1
-                                        n_jogos_verdes_em_sequencia += 1
                                     ultimo_foi_verde = True
+                                    n_jogos_verdes_em_sequencia += 1
                             
                                 if n_jogos_verdes_em_sequencia == 3:
                                     telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 3} JOGOS AMARELOS')
@@ -142,8 +142,8 @@ def ler_resultados():
                                 array_resultados.insert(0,f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
                                 if not ultimo_foi_verde:
                                     n_jogos_amarelos += 1
-                                    n_jogos_verdes_em_sequencia += 1
                                 ultimo_foi_verde = True
+                                n_jogos_verdes_em_sequencia += 1
 
                             if n_jogos_verdes_em_sequencia == 3:
                                 telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 3} JOGOS AMARELOS')
