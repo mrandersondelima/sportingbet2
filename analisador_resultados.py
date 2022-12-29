@@ -113,29 +113,16 @@ def ler_resultados():
                                 gols_fora = placar.split('x')[1]
                                 if int(gols_casa) + int(gols_fora) < 3:
                                     array_resultados.append(f"{bcolors.WARNING}⬤{bcolors.ENDC} ")
-                                    if not ultimo_foi_verde:
-                                        n_jogos_amarelos += 1
-                                        n_jogos_verdes_em_sequencia = 0
-                                    ultimo_foi_verde = False
                                 else:
                                     array_resultados.append(f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
-                                    if not ultimo_foi_verde:
-                                        n_jogos_amarelos += 1
-                                    ultimo_foi_verde = True
-                                    n_jogos_verdes_em_sequencia += 1
-                            
-                                if n_jogos_verdes_em_sequencia == 3:
-                                    telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 3} JOGOS AMARELOS')
-                                    n_jogos_verdes_em_sequencia = 0
-                                    n_jogos_amarelos = 0
-                                    ultimo_foi_verde = False
+
                         else:
                             gols_casa = int(resultados[0].split('x')[0])
                             gols_fora = int(resultados[0].split('x')[1])
                             if int(gols_casa) + int(gols_fora) < 3:
                                 if not ultimo_foi_verde:
                                     n_jogos_amarelos += 1
-                                    n_jogos_verdes_em_sequencia = 0
+                                n_jogos_verdes_em_sequencia = 0
                                 ultimo_foi_verde = False
                                 array_resultados.insert(0,f"{bcolors.WARNING}⬤{bcolors.ENDC} ")
                             else:
