@@ -12,8 +12,11 @@ from telegram_bot import TelegramBot
 from random import randrange
 import os
 from utils import *
+from credenciais import path_to_results
 
 hora_jogo_atual = None
+ultimo_jogo = dict()
+ultima_lista = ''
 
 # armazena a porcentagem de acordo com o número de jogos amarelos
 n_amarelos_e_porcentagem = [0, 0, 0, 0, 0, 0, 0.59, 1.05, 1.87, 3.36, 6, 11, 21]
@@ -575,15 +578,53 @@ class ChromeAuto():
                 print(e)
                 print('Algo saiu errado no espera_resultado')   
 
-         
+def pega_ultimo_resultado():
+    pausa_menor = False
+    try:
+        saida = os.popen(f'{path_to_results}').read()
+        if saida.split('\n')[0] == '' or 'PLAYNOW!' not in saida:
+            pass
+        else:
+            lista_resultados = saida.split('\n')[2]
+
+            if '_' not in lista_resultados:
+                pausa_menor = False
+                # essa lista já foi capturado
+                if ultimo_jogo.get(lista_resultados) == True:
+                    pass
+                else:
+                    resultados = lista_resultados.split(' ')
+
+                    gols_casa = int(resultados[0].split('x')[0])
+                    gols_fora = int(resultados[0].split('x')[1])
+                    return gols_casa + gols_fora
+                
+                if len(ultimo_jogo) == 2:
+                    del ultimo_jogo[ultima_lista]
+                
+                # adiciona a nova lista no dicionário
+                ultimo_jogo[lista_resultados] = True         
+
+                ultima_lista = lista_resultados  
+            else:
+                pausa_menor = True
+                sleep(5)
+        if not pausa_menor:
+            sleep(15)
+    except Exception as e:
+        print(e)
+
+if __name__ == '__main__':
+    print(pega_ultimo_resultado())
+    exit()
         
 class AnalisadorResultados():
     def __init__(self, n_amarelos=None):
         self.estilo_jogo = 10
-        self.tipo_valor = 1
-        self.valor_aposta = n_amarelos_e_porcentagem[n_amarelos]
-        self.tipo_meta = 1        
-        self.meta = n_amarelos_e_porcentagem[n_amarelos]
+        self.tipo_valor = 2
+        self.valor_aposta = 2
+        self.tipo_meta = 2        
+        self.meta = 2
         self.ao_atingir_meta = 1
 
     def aposta(self):
@@ -600,12 +641,17 @@ class AnalisadorResultados():
 
         while not chrome.meta_atingida:
             if chrome.jogos_realizados.get(hora_jogo_atual) == None:
-                chrome.clica_horario_jogo(f"//*[normalize-space(text()) = '{hora_jogo_atual}']")
-                if not chrome.aposta_fechada:
-                    chrome.analisa_odds()
-                    chrome.espera_resultado_jogo(f"//*[normalize-space(text()) = '{hora_jogo_atual}']")
+
+
+                if pega_ultimo_resultado() <= 2:
+                    pass
                 else:
-                    print(f'APOSTA DO HORÁRIO {hora_jogo_atual} JÁ FECHADA...')
+                    chrome.clica_horario_jogo(f"//*[normalize-space(text()) = '{hora_jogo_atual}']")
+                    if not chrome.aposta_fechada:
+                        chrome.analisa_odds()
+                        chrome.espera_resultado_jogo(f"//*[normalize-space(text()) = '{hora_jogo_atual}']")
+                    else:
+                        print(f'APOSTA DO HORÁRIO {hora_jogo_atual} JÁ FECHADA...')
             else:
                 print('APOSTA JÁ REALIZADA PARA ESTE JOGO...')
 
