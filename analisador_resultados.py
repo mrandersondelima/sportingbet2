@@ -131,9 +131,12 @@ def ler_resultados():
                                     n_jogos_amarelos += 1
                                 ultimo_foi_verde = True
                                 n_jogos_verdes_em_sequencia += 1
+                            
+                            if n_jogos_amarelos >= 25:
+                                telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
 
                             if n_jogos_verdes_em_sequencia == 3:
-                                telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 3} JOGOS AMARELOS')
+                                telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos} JOGOS AMARELOS')
                                 n_jogos_verdes_em_sequencia = 0
                                 n_jogos_amarelos = 0
                                 ultimo_foi_verde = False
@@ -145,8 +148,12 @@ def ler_resultados():
 
                         ultima_lista = lista_resultados   
 
+                        if len(array_resultados) == 70:
+                            array_resultados.pop()
+
                         for resultado in array_resultados:
                             print(resultado, end='', flush=True)
+                        print()
                 else:
                     pausa_menor = True
                     sleep(5)
