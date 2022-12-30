@@ -110,6 +110,9 @@ def ler_resultados():
                         if primeira_execucao:
                             primeira_execucao = False
                             array_resultados = []
+                            n_jogos_amarelos = 0
+                            n_jogos_verdes_em_sequencia = 0
+                            ultimo_foi_verde = False
                             for placar in resultados:
                                 gols_casa = placar.split('x')[0]
                                 gols_fora = placar.split('x')[1]
@@ -118,7 +121,7 @@ def ler_resultados():
                                 else:
                                     array_resultados.append(f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
 
-                                if n_jogos_amarelos >= 15:
+                                if n_jogos_amarelos >= 20:
                                     telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
                                     subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
 
@@ -138,7 +141,7 @@ def ler_resultados():
                                 ultimo_foi_verde = True
                                 n_jogos_verdes_em_sequencia += 1
                             
-                            if n_jogos_amarelos >= 15:
+                            if n_jogos_amarelos >= 20:
                                     telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
                                     subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
                                     primeira_execucao = True
