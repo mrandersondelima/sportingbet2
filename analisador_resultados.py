@@ -76,6 +76,13 @@ def pega_ultimo_resultado():
         print(e)
 
 def ler_resultados():
+
+    analisar_apenas = int(input('USAR APENAS COMO ANALISADOR? (1) SIM (2) NÃO'))
+    if analisar_apenas == 1:
+        analisar_apenas = True
+    else:
+        analisar_apenas = False
+
     n_jogos_amarelos = 0
     n_jogos_verdes_em_sequencia = 0
     primeira_execucao = True
@@ -121,10 +128,6 @@ def ler_resultados():
                                 else:
                                     array_resultados.append(f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
 
-                                if n_jogos_amarelos >= 20:
-                                    telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
-                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
-
                         else:
                             gols_casa = int(resultados[0].split('x')[0])
                             gols_fora = int(resultados[0].split('x')[1])
@@ -143,8 +146,9 @@ def ler_resultados():
                             
                             if n_jogos_amarelos >= 20:
                                     telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
-                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
-                                    primeira_execucao = True
+                                    if not analisar_apenas:
+                                        subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
+                                        primeira_execucao = True
 
                             if n_jogos_verdes_em_sequencia == 3:
                                 telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 1} JOGOS AMARELOS')
