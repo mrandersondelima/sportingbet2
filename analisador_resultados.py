@@ -109,6 +109,7 @@ def ler_resultados():
 
                         if primeira_execucao:
                             primeira_execucao = False
+                            array_resultados = []
                             for placar in resultados:
                                 gols_casa = placar.split('x')[0]
                                 gols_fora = placar.split('x')[1]
@@ -119,7 +120,7 @@ def ler_resultados():
 
                                 if n_jogos_amarelos >= 15:
                                     telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
-                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '2.5', '1', '2', '1'])
+                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
 
                         else:
                             gols_casa = int(resultados[0].split('x')[0])
@@ -139,7 +140,8 @@ def ler_resultados():
                             
                             if n_jogos_amarelos >= 15:
                                     telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
-                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '2.5', '1', '2', '1'])
+                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
+                                    primeira_execucao = True
 
                             if n_jogos_verdes_em_sequencia == 3:
                                 telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 1} JOGOS AMARELOS')
