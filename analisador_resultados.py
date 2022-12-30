@@ -4,6 +4,7 @@ from telegram_bot import TelegramBot
 from credenciais import path_to_results
 #from app import AnalisadorResultados
 from datetime import datetime
+import subprocess
 
 class bcolors:
     HEADER = '\033[95m'
@@ -44,7 +45,7 @@ def verifica_lista( lista_resultados, ultima_lista ):
 
 def pega_ultimo_resultado():
     try:
-        saida = os.popen(f'{path_to_results}').read()
+        saida = subprocess.Popen(f'{path_to_results}').read()
         if saida.split('\n')[0] == '' or 'PLAYNOW!' not in saida:
             pass
         else:
@@ -116,6 +117,10 @@ def ler_resultados():
                                 else:
                                     array_resultados.append(f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
 
+                                if n_jogos_amarelos >= 15:
+                                    telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
+                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '2.5', '1', '2', '1'])
+
                         else:
                             gols_casa = int(resultados[0].split('x')[0])
                             gols_fora = int(resultados[0].split('x')[1])
@@ -132,11 +137,12 @@ def ler_resultados():
                                 ultimo_foi_verde = True
                                 n_jogos_verdes_em_sequencia += 1
                             
-                            if n_jogos_amarelos >= 25:
-                                telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
+                            if n_jogos_amarelos >= 15:
+                                    telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
+                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '2.5', '1', '2', '1'])
 
                             if n_jogos_verdes_em_sequencia == 3:
-                                telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos} JOGOS AMARELOS')
+                                telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 1} JOGOS AMARELOS')
                                 n_jogos_verdes_em_sequencia = 0
                                 n_jogos_amarelos = 0
                                 ultimo_foi_verde = False
