@@ -77,7 +77,7 @@ def pega_ultimo_resultado():
 
 def ler_resultados():
 
-    analisar_apenas = int(input('USAR APENAS COMO ANALISADOR? (1) SIM (2) NÃO'))
+    analisar_apenas = int(input('USAR APENAS COMO ANALISADOR? (1) SIM (2) NÃO '))
     if analisar_apenas == 1:
         analisar_apenas = True
     else:
