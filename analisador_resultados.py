@@ -122,6 +122,7 @@ def ler_resultados():
                             primeira_execucao = False
                             array_resultados = []
                             n_jogos_verdes_em_sequencia = 0
+                            n_jogos_amarelos_em_sequencia = 0
                             for placar in resultados:
                                 gols_casa = placar.split('x')[0]
                                 gols_fora = placar.split('x')[1]
