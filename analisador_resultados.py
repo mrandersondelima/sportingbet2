@@ -71,7 +71,7 @@ def pega_ultimo_resultado():
                 pausa_menor = True
                 sleep(5)
         if not pausa_menor:
-            sleep(15)
+            sleep(10)
     except Exception as e:
         print(e)
 
@@ -167,7 +167,7 @@ def ler_resultados():
                             if n_jogos_amarelos_em_sequencia == 2:
                                 telegram_bot.envia_mensagem(f'DOIS AMARELOS EM SEGUIDA')
                                 if not analisar_apenas:
-                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '13', '1', '1', '1', '1', '2', '2', '1', '1'])
+                                    subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '15', '1', '1', '1', '1', '2', '2', '1', '1'])
                             # if n_jogos_amarelos >= 20:
                             #         telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
                             #         if not analisar_apenas:                            #             
