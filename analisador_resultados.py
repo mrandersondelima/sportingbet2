@@ -88,6 +88,8 @@ def ler_resultados():
     n_jogos_total = 0
     primeira_execucao = True
     ultimo_foi_verde = False
+    ultimo_foi_empate = False
+    ultimo_foi_dois_ou_mais = False
     while True:
         pausa_menor = False
         try:
@@ -119,7 +121,6 @@ def ler_resultados():
                             resultados.reverse()
                             primeira_execucao = False
                             array_resultados = []
-                            n_jogos_amarelos = 0
                             n_jogos_verdes_em_sequencia = 0
                             for placar in resultados:
                                 gols_casa = placar.split('x')[0]
@@ -127,48 +128,48 @@ def ler_resultados():
                                 if int(gols_casa) + int(gols_fora) < 3:
                                     array_resultados.insert(0, f"{bcolors.WARNING}⬤{bcolors.ENDC} ")
                                     n_jogos_amarelos_em_sequencia += 1
-                                    if n_jogos_verdes_em_sequencia >= 3:
-                                        telegram_bot.envia_mensagem(f'{n_jogos_verdes_em_sequencia} VERDES DEPOIS DE {n_jogos_total - n_jogos_verdes_em_sequencia} PARTIDAS')
-                                        n_jogos_total = 0
                                     n_jogos_verdes_em_sequencia = 0
                                 else:
                                     array_resultados.insert(0,f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
-                                    if n_jogos_amarelos_em_sequencia >= 3:
-                                        telegram_bot.envia_mensagem(f'{n_jogos_amarelos_em_sequencia} AMARELOS DEPOIS DE {n_jogos_total - n_jogos_amarelos_em_sequencia} PARTIDAS')
-                                        n_jogos_total = 0
                                     n_jogos_amarelos_em_sequencia = 0
                                     n_jogos_verdes_em_sequencia += 1
-                                n_jogos_total += 1
+                                
+                                if n_jogos_amarelos_em_sequencia == 2:
+                                    telegram_bot.envia_mensagem(f'DOIS AMARELOS EM SEGUIDA')
+
+                                # if int(gols_casa) == int(gols_fora):
+                                #     if ultimo_foi_empate:
+                                #         telegram_bot.envia_mensagem(f'DOIS EMPATES EM SEGUIDA')
+                                #     ultimo_foi_empate = True
+                                # else:
+                                #     ultimo_foi_empate = False
+
+                                # if int(gols_casa) + int(gols_fora) in [2,3]:
+                                #     if ultimo_foi_dois_ou_mais:
+                                #         telegram_bot.envia_mensagem(f'DOIS OU TRÊS GOLS EM SEGUIDA')
+                                #     ultimo_foi_dois_ou_mais = True
+                                # else:
+                                #     ultimo_foi_dois_ou_mais = False
 
                         else:
                             gols_casa = int(resultados[0].split('x')[0])
                             gols_fora = int(resultados[0].split('x')[1])
                             if int(gols_casa) + int(gols_fora) < 3:
-                                array_resultados.insert(0,f"{bcolors.WARNING}⬤{bcolors.ENDC} ")
+                                array_resultados.insert(0, f"{bcolors.WARNING}⬤{bcolors.ENDC} ")
                                 n_jogos_amarelos_em_sequencia += 1
-                                if n_jogos_verdes_em_sequencia >= 3:
-                                    telegram_bot.envia_mensagem(f'{n_jogos_verdes_em_sequencia} VERDES DEPOIS DE {n_jogos_total - n_jogos_verdes_em_sequencia} PARTIDAS')
-                                    n_jogos_total = 0
                                 n_jogos_verdes_em_sequencia = 0
                             else:
                                 array_resultados.insert(0,f"{bcolors.OKGREEN}⬤{bcolors.ENDC} ")
-                                n_jogos_verdes_em_sequencia += 1
-                                if n_jogos_amarelos_em_sequencia >= 3:
-                                    telegram_bot.envia_mensagem(f'{n_jogos_amarelos_em_sequencia} AMARELOS DEPOIS DE {n_jogos_total - n_jogos_amarelos_em_sequencia} PARTIDAS')
-                                    n_jogos_total = 0
                                 n_jogos_amarelos_em_sequencia = 0
-                            n_jogos_total += 1
+                                n_jogos_verdes_em_sequencia += 1
+                            
+                            if n_jogos_amarelos_em_sequencia == 2:
+                                telegram_bot.envia_mensagem(f'DOIS AMARELOS EM SEGUIDA')
+                                subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '13', '1', '1', '1', '1', '2', '2', '1', '1'])
                             # if n_jogos_amarelos >= 20:
                             #         telegram_bot.envia_mensagem(f'{n_jogos_amarelos} JOGOS AMARELOS')
-                            #         if not analisar_apenas:
-                            #             subprocess.Popen(['python', 'C:\\Users\\anderson.morais\\Documents\\dev\\sportingbet\\app.py', '14', '1', '2.5', '1', '5', '1', '2', '1'])
+                            #         if not analisar_apenas:                            #             
                             #             primeira_execucao = True
-
-                            if n_jogos_verdes_em_sequencia == 3:
-                                telegram_bot.envia_mensagem(f'TRÊS VERDES DEPOIS DE {n_jogos_amarelos - 1} JOGOS AMARELOS')
-                                n_jogos_verdes_em_sequencia = 0
-                                n_jogos_amarelos = 0
-                                ultimo_foi_verde = False
 
                         if len(ultimo_jogo) == 2:
                             del ultimo_jogo[ultima_lista]
